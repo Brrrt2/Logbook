@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt OCR</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Receipt OCR Scanner</h1>
+
+    <div class="container">
+        <!-- Live Camera Section -->
+        <div class="camera-section">
+            <h2>Live Camera</h2>
+            <video id="camera" autoplay playsinline></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+            <button id="capture-btn">Capture</button>
+        </div>
+
+        <!-- File Upload Section -->
+        <div class="upload-section">
+            <h2>Upload Image</h2>
+            <input type="file" id="file-input" accept="image/*">
+            <button id="upload-btn">Upload</button>
+        </div>
+
+        <!-- Result Display Section -->
+        <div class="result-section">
+            <h2>Captured Image</h2>
+            <img id="captured-img" src="" alt="Captured Image">
+            <h2>Extracted Text</h2>
+            <p id="ocr-text"></p>
+        
+            <!-- New section to display extracted data -->
+            <div id="extracted-data"></div>  <!-- This is where the extracted entities will be displayed -->
+        </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

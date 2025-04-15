@@ -1,0 +1,373 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #BCCBC1;
+}
+
+.card{
+  height: 600px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+
+}
+.title-of-record{
+  position: inherit;
+  text-align: left;
+}
+
+/* Overlay background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+}
+.buttons-alignment{
+  text-align:left;
+}
+.btn{
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-color: #D06666;
+  border-color: #D06666;
+}
+/* Sidebar drawer */
+.menu-drawer {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height:300px;
+  margin-top: 30px;
+  background-color: #304452;
+  color: #BCCBC1;
+  transition: left 0.3s ease;
+  z-index: 1000;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 3px 0 10px rgba(0,0,0,0.3);
+}
+
+.menu-drawer.open {
+  left: 0;
+}
+
+.menu-item {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.menu-item:hover {
+  padding-left: 10px;
+  color: #d9e9ff;
+
+}
+
+.menu-item a {
+  text-decoration: none;  /* Removes underline */
+  color: inherit;         /* Inherits text color from parent */
+}
+
+.menu-item a:hover {
+  color: #007bff;         /* Optional: Add hover color for interactivity */
+}
+
+/* Hamburger */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90px;
+  height: 60px;
+  margin-top: 30px;
+  background-color: #304452;
+  display: flex;
+  align-items: flex-start;
+  justify-content:center;
+  padding-top: 10px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  z-index: 1101;
+}
+
+.menu-icon {
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Main Content */
+.main-container {
+  margin-left: 60px;
+  padding: 60px;
+  position: relative;
+}
+
+
+
+.logbook-title {
+  color: white;
+  padding-left: 0.75rem;  /* Tailwind's px-3 = 12px */
+  padding-right: 0.75rem;
+  padding-top: 1rem;     /* Tailwind's pt-4 = 16px */
+  margin-top: 55px;
+}
+
+
+
+
+
+.table-layout {
+  margin-top: 20px;
+  position: inherit;
+  width: 100%;
+  border-collapse: collapse;
+}
+.th {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+.thead {
+  background-color: #f4f4f4;
+}
+
+/* === Modal Popup Styles === */
+
+.record-modal {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 1050;
+  transition: right 0.4s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.record-modal.show {
+  right: 0;
+}
+
+.record-content {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-body {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+video#camera {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+
+.camera-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.camera-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(48, 68, 82, 0.85);
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.access-btn {
+  font-size: 1.25rem;
+  padding: 12px 24px;
+  border-radius: 20px;
+  background-color: #D06666;
+  border: none;
+  color: white;
+}
+
+
+.capture-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 25px;
+  background-color: #D06666;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: background-color 0.3s;
+}
+
+.capture-btn:hover {
+  background-color: #b25555;
+}
+
+.snapshot-result img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #304452;
+}
+
+/* Image Modal Styles */
+.custom-image-modal {
+  width: 80%;
+  max-width: 600px;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+}
+
+.modal-footer {
+  text-align: right;
+  padding-top: 1rem;
+}
+
+#previewImage {
+  padding-top: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  max-width: 100%; /* Make sure the image does not exceed the width of the container */
+  max-height: 100%;
+  max-width: 75%; /* You can adjust the max-height to fit your design */
+  object-fit: contain; /* Ensure the entire image is displayed without cropping */
+  width: auto;
+  height: auto;
+  
+}
+
+/* === Image Preview Modal Styles === */
+.image-preview-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+  z-index: 1051; /* Higher z-index to appear above camera modal */
+}
+
+.image-preview-modal .modal-content {
+  position: relative;
+}
+
+.custom-image-modal {
+  width: 100%;
+  max-width: 600px;
+}
+
+.modal-footer {
+  text-align: right;
+  padding-top: 1rem;
+}
+
+
+
+
+.custom-image-modal {
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.modal-body {
+  max-height: 70vh; /* This restricts the modal body height */
+  overflow-y: auto; /* Allow scrolling only if content exceeds the set height */
+  padding: 15px; /* Padding to create space inside the modal */
+}
+
+.ocr-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.image-and-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.ocr-fields {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  overflow-y: auto; /* Allows scrolling if content overflows */
+}
+
+.modal-body {
+  max-height: 70vh; /* Optional: limits height for overflow */
+  overflow-y: auto; /* Scrollable if content overflows */
+}
+
+
+
+
+
