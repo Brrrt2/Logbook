@@ -125,8 +125,9 @@ function saveOcrData() {
   document.getElementById("ocrTin").value = "";
   document.getElementById("ocrCategory").value = "";
 
-  // Optionally, close the modal after saving the data
+  // Close both modals after saving the data
   toggleRecordModal();
+  toggleImagePreviewModal(); // <- This is the added line to close image modal too
 }
 
 // Function to edit a row
@@ -154,5 +155,83 @@ function deleteRow(button) {
   row.remove();
 }
 
+
 // Add event listener to the save button in the modal
 document.querySelector(".btn-primary").addEventListener("click", saveOcrData);
+
+let currentEditingRow = null;
+
+// Called when Edit button is clicked
+function editRow(button) {
+  const row = button.closest("tr");
+  const cells = row.getElementsByTagName("td");
+
+  // Store reference for saving later
+  currentEditingRow = row;
+
+  // Fill the edit modal with current row values
+  document.getElementById("editDate").value = cells[0].innerText;
+  document.getElementById("editDescription").value = cells[1].innerText;
+  document.getElementById("editAmount").value = cells[2].innerText;
+  document.getElementById("editInvoice").value = cells[3].innerText;
+  document.getElementById("editVatCompany").value = cells[4].innerText;
+  document.getElementById("editInputTax").value = cells[5].innerText;
+  document.getElementById("editTin").value = cells[6].innerText;
+  document.getElementById("editCategory").value = cells[7].innerText;
+
+  // Show edit modal
+  document.getElementById("editRecordModal").classList.remove("d-none");
+  document.getElementById("editRecordModal").classList.add("show");
+}
+
+// Save button inside Edit Modal
+function saveEditedRecord(closeAfterSave = false) {
+  if (!currentEditingRow) return;
+
+  const cells = currentEditingRow.getElementsByTagName("td");
+
+  // Update cell values
+  cells[0].innerText = document.getElementById("editDate").value;
+  cells[1].innerText = document.getElementById("editDescription").value;
+  cells[2].innerText = document.getElementById("editAmount").value;
+  cells[3].innerText = document.getElementById("editInvoice").value;
+  cells[4].innerText = document.getElementById("editVatCompany").value;
+  cells[5].innerText = document.getElementById("editInputTax").value;
+  cells[6].innerText = document.getElementById("editTin").value;
+  cells[7].innerText = document.getElementById("editCategory").value;
+
+  if (closeAfterSave) {
+    hideEditModal();
+    hideConfirmClose();
+  } else {
+    hideEditModal();
+  }
+
+  currentEditingRow = null;
+}
+
+// Close edit modal
+function hideEditModal() {
+  document.getElementById("editRecordModal").classList.add("d-none");
+  document.getElementById("editRecordModal").classList.remove("show");
+}
+
+// Show confirm close dialog
+function showCloseConfirm() {
+  document.getElementById("confirmCloseModal").classList.remove("d-none");
+  document.getElementById("confirmCloseModal").classList.add("show");
+}
+
+// Hide confirm close
+function hideConfirmClose() {
+  document.getElementById("confirmCloseModal").classList.add("d-none");
+  document.getElementById("confirmCloseModal").classList.remove("show");
+}
+
+// Close without saving
+function closeWithoutSaving() {
+  hideConfirmClose();
+  hideEditModal();
+  currentEditingRow = null;
+}
+

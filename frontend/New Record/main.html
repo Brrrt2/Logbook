@@ -42,24 +42,26 @@
       </div>
       <div class="table-div">
         <!-- Table to display saved data -->
-        <table border="1" class="table-layout mt-4">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Invoice Number</th>
-              <th>VAT Company</th>
-              <th>Input Tax Amount</th>
-              <th>VAT Registration TIN</th>
-              <th>Category</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Dynamic rows will be added here -->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table border="1" class="table-layout mt-4">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Invoice Number</th>
+                <th>VAT Company</th>
+                <th>Input Tax Amount</th>
+                <th>VAT Registration TIN</th>
+                <th>Category</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recordTable">
+              <!-- Dynamic rows will be added here -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -154,6 +156,80 @@
       </div>
     </div>
   </div>
+
+  <!-- Edit Record Modal -->
+<div id="editRecordModal" class="record-modal d-none">
+  <div class="record-content">
+    <div class="modal-header">
+      <h5>Edit Record</h5>
+      <span class="close-btn" onclick="showCloseConfirm()">×</span>
+    </div>
+    <div class="modal-body">
+      <!-- Editable Fields -->
+      <div class="ocr-fields w-100">
+        <div class="mb-2">
+          <label for="editDate">Date:</label>
+          <input type="date" id="editDate" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label for="editDescription">Description:</label>
+          <input type="text" id="editDescription" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label for="editAmount">Amount:</label>
+          <input type="number" step="0.01" id="editAmount" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label for="editInvoice">Invoice Number:</label>
+          <input type="text" id="editInvoice" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label for="editVatCompany">VAT Company:</label>
+          <input type="text" id="editVatCompany" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label for="editInputTax">Input Tax Amount:</label>
+          <input type="number" step="0.01" id="editInputTax" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label for="editTin">VAT Registration TIN:</label>
+          <input type="text" id="editTin" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label for="editCategory">Category:</label>
+          <select id="editCategory" class="form-control">
+            <option>Transportation</option>
+            <option>Renovation</option>
+            <option>Groceries</option>
+            <option>Utilities</option>
+            <option>Office Supplies</option>
+            <option>Miscellaneous</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="showCloseConfirm()">Close</button>
+      <button class="btn btn-primary" onclick="saveEditedRecord()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmCloseModal" class="record-modal d-none">
+  <div class="record-content">
+    <div class="modal-header">
+      <h5>Confirm Close</h5>
+      <span class="close-btn" onclick="hideConfirmClose()">×</span>
+    </div>
+    <div class="modal-body text-center">
+      <p>Do you want to save the changes before closing?</p>
+      <button class="btn btn-success m-1" onclick="saveEditedRecord(true)">Close and Save</button>
+      <button class="btn btn-danger m-1" onclick="closeWithoutSaving()">Close Without Saving</button>
+    </div>
+  </div>
+</div>
+
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
