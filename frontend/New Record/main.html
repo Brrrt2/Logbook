@@ -36,9 +36,11 @@
         <button class="btn btn-primary" onclick="toggleRecordModal()">
           <span>➕</span> New Record
         </button>
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" onclick="document.getElementById('fileInput').click();">
           <span>➕</span> Upload File
         </button>
+        <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="previewImage(event)" />
+
       </div>
       <div class="table-div">
         <!-- Table to display saved data -->
@@ -96,7 +98,7 @@
   <div id="imagePreviewModal" class="image-preview-modal d-none">
     <div class="modal-content custom-image-modal">
       <div class="modal-header">
-        <h5>Captured Image</h5>
+        <h5>Confirm Record</h5>
         <button class="btn-close" onclick="toggleImagePreviewModal()"></button>
       </div>
 

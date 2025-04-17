@@ -235,3 +235,28 @@ function closeWithoutSaving() {
   currentEditingRow = null;
 }
 
+// Function to preview the uploaded image
+function previewImage(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    const previewImage = document.getElementById('previewImage');
+    previewImage.src = e.target.result;
+
+    // Show the modal once the image is selected
+    toggleImagePreviewModal();
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
+
+// Function to toggle the modal visibility
+function toggleImagePreviewModal() {
+  const modal = document.getElementById('imagePreviewModal');
+  modal.classList.toggle('d-none');
+  
+}
+

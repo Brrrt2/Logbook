@@ -414,3 +414,6 @@
     transform: scale(1);
   }
 }
+#record-content {
+  display: none; /* hidden initially */
+}
