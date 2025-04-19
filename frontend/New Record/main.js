@@ -29,6 +29,13 @@ function toggleRecordModal() {
   }
 }
 
+// last updated func returning last update system time/date
+// function updateLastModified() {
+//   const now = new Date();
+//   const formatted = now.toLocaleString(); // Adjust for your preferred format
+//   document.getElementById("lastUpdated").textContent = `Last updated: ${formatted}`;
+// }
+
 // Start the camera when the modal is shown
 function startCamera() {
   const camera = document.getElementById("camera");
@@ -75,22 +82,44 @@ function toggleImagePreviewModal() {
   imagePreviewModal.classList.toggle("show"); // Toggles the 'show' class
 }
 
+// Prevent e and other symbols in Amount
+document.addEventListener("DOMContentLoaded", function (){
+  // prevent other keys being pressed for amount
+  const pesosInput = document.getElementById('ocrPesos');
+  const centsInput = document.getElementById('ocrCents');
+  const taxpesosInput = document.getElementById('ocrTaxPesos');
+  // const taxcentsInput = document.getElementById('ocrTaxCents');
+  const keyblock = ['e', 'E', '.', '+', '-'];
+  
+  function preventKeyPressed(event){
+    if (keyblock.includes(event.key)) {
+  
+        event.preventDefault();
+    }
+  
+  }
+  
+  pesosInput.addEventListener('keydown', preventKeyPressed);
+  taxpesosInput.addEventListener('keydown', preventKeyPressed);
+  centsInput.addEventListener('keydown', preventKeyPressed);
+});
+
 // Function to save OCR data and insert it into the table
 function saveOcrData() {
   // Get the input values from the OCR form
   const date = document.getElementById("ocrDate").value;
   const description = document.getElementById("ocrDescription").value;
-  const amount = document.getElementById("ocrAmount").value;
+  const amount = document.getElementById("ocrPesos").value;
   const invoice = document.getElementById("ocrInvoice").value;
   const vatCompany = document.getElementById("ocrVatCompany").value;
-  const inputTax = document.getElementById("ocrInputTax").value;
+  const inputTax = document.getElementById("ocrTaxPesos").value;
   const vatTin = document.getElementById("ocrTin").value;
   const category = document.getElementById("ocrCategory").value;
 
   // Check if any field is empty
-  if (!date || !description || !amount || !invoice || !vatCompany || !inputTax || !vatTin || !category) {
+  if (!date || !description || !invoice || !amount || !vatCompany || !inputTax || !vatTin || !category) {
     alert("Please fill in all fields before saving.");
-    return; // Prevent saving if any field is empty
+    return updateLastModified(); // Prevent saving if any field is empty
   }
 
   // Get the table body element by class or ID
@@ -101,6 +130,7 @@ function saveOcrData() {
 
   // Insert new cells with the OCR data
   newRow.innerHTML = `
+      <td><input type="checkbox" class="record-checkbox" /></td>
       <td>${date}</td>
       <td>${description}</td>
       <td>${amount}</td>
@@ -118,7 +148,7 @@ function saveOcrData() {
   // Clear the form fields after saving the data for the next entry
   document.getElementById("ocrDate").value = "";
   document.getElementById("ocrDescription").value = "";
-  document.getElementById("ocrAmount").value = "";
+  document.getElementById("ocrPesos").value = "";
   document.getElementById("ocrInvoice").value = "";
   document.getElementById("ocrVatCompany").value = "";
   document.getElementById("ocrInputTax").value = "";
@@ -129,6 +159,7 @@ function saveOcrData() {
   toggleRecordModal();
   toggleImagePreviewModal(); // <- This is the added line to close image modal too
 }
+
 
 // Function to edit a row
 function editRow(button) {

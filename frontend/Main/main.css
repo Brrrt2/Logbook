@@ -22,7 +22,15 @@ body {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 999;
+
+    /* transition: opacity 0.3s ease; */
   }
+
+  /* .overlay.active {
+    opacity: 0.4;
+    visibility: visible;
+  } */
+
   .btn{
     margin-top: 150px;
     border-top-right-radius: 20px;

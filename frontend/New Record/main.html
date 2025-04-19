@@ -31,7 +31,7 @@
   <!-- Main Content -->
   <div class="main-container container">
     <div class="card p-4 text-center">
-      <h1 class="title-of-record">Title of Record</h1>
+      <h1 class="title-of-record" contenteditable="true">Title of Record</h1>
       <div class="buttons-alignment">
         <button class="btn btn-primary" onclick="toggleRecordModal()">
           <span>➕</span> New Record
@@ -48,6 +48,7 @@
           <table border="1" class="table-layout mt-4">
             <thead>
               <tr>
+                <th></th>
                 <th>Date</th>
                 <th>Description</th>
                 <th>Amount</th>
@@ -64,6 +65,8 @@
             </tbody>
           </table>
         </div>
+        <!-- Last updated Status :: CSS later-->
+        <p id="lastUpdated" class="text-muted mt-3">Last updated: Not yet available <3</p>
       </div>
     </div>
   </div>
@@ -119,7 +122,13 @@
             </div>
             <div class="mb-2">
               <label for="ocrAmount">Amount:</label>
-              <input type="number" step="0.01" id="ocrAmount" class="form-control" />
+              <div class="d-flex align-items-center gap-2">
+                <span class="fs-3">₱</span>
+                <!-- Amount in Pesos + Cents -->
+                <input type="number" id="ocrPesos" class="form-control" placeholder="0000" style="max-width: 140px;" />
+                <span class="fs-5">.</span>
+                <input type="number" id="ocrCents" class="form-control" placeholder="00" style="max-width: 90px;" />
+              </div>
             </div>
             <div class="mb-2">
               <label for="ocrInvoice">Invoice Number:</label>
@@ -131,8 +140,14 @@
             </div>
             <div class="mb-2">
               <label for="ocrInputTax">Input Tax Amount:</label>
-              <input type="number" step="0.01" id="ocrInputTax" class="form-control" />
-            </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="fs-3">₱</span>
+                <!-- Amount in Pesos + Cents -->
+                <input type="number" id="ocrTaxPesos" class="form-control" placeholder="0000" style="max-width: 140px;" />
+                <span class="fs-5">.</span>
+                <input type="number" id="ocrCents" class="form-control" placeholder="00" style="max-width: 90px;" />
+              </div>
+             </div>
             <div class="mb-2">
               <label for="ocrTin">VAT Registration TIN:</label>
               <input type="text" id="ocrTin" class="form-control" />
