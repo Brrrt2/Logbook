@@ -3,14 +3,13 @@ body {
     font-family: Arial, sans-serif;
     background-color: #BCCBC1;
   }
-
-  .card{
-    height: 500px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-
+  
+  /* Card Styling */
+  .card {
+    height: auto;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   }
   
   /* Overlay background */
@@ -22,31 +21,23 @@ body {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 999;
-
-    /* transition: opacity 0.3s ease; */
   }
-
-  /* .overlay.active {
-    opacity: 0.4;
-    visibility: visible;
-  } */
-
-  .btn{
+  
+  /* Button Styling */
+  .btn {
     margin-top: 150px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-radius: 20px;
     background-color: #D06666;
     border-color: #D06666;
   }
-  /* Sidebar drawer */
+  
+  /* Sidebar Drawer */
   .menu-drawer {
     position: fixed;
     top: 0;
     left: -250px;
     width: 250px;
-    height:350px;
+    height: 350px;
     margin-top: 30px;
     background-color: #304452;
     color: #BCCBC1;
@@ -72,16 +63,15 @@ body {
   .menu-item:hover {
     padding-left: 10px;
     color: #d9e9ff;
-
   }
-
+  
   .menu-item a {
-    text-decoration: none;  /* Removes underline */
-    color: inherit;         /* Inherits text color from parent */
+    text-decoration: none;
+    color: inherit;
   }
-
+  
   .menu-item a:hover {
-    color: #007bff;         /* Optional: Add hover color for interactivity */
+    color: #007bff;
   }
   
   /* Hamburger */
@@ -95,7 +85,7 @@ body {
     background-color: #304452;
     display: flex;
     align-items: flex-start;
-    justify-content:center;
+    justify-content: center;
     padding-top: 10px;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
@@ -129,12 +119,29 @@ body {
     line-height: 1.4;
     text-align: center;
   }
-
+  
   .logbook-title {
     color: white;
-    padding-left: 0.75rem;  /* Tailwind's px-3 = 12px */
+    padding-left: 0.75rem;
     padding-right: 0.75rem;
-    padding-top: 1rem;     /* Tailwind's pt-4 = 16px */
+    padding-top: 1rem;
     margin-top: 55px;
+  }
+  
+  /* About Page Specific */
+  .text-dark {
+    color: #1a1a1a !important;
+  }
+  
+
+  .social-icon {
+    font-size: 1.2rem;
+    margin: 0 10px;
+    color: #666;
+    text-decoration: none;
+  }
+  
+  .social-icon:hover {
+    color: #007bff; /* Change to whatever hover color you prefer */
   }
   

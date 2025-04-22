@@ -19,7 +19,9 @@
     <ul class="list-unstyled px-3 pt-3">
       <li class="menu-item"><a href="../Main/main.html">Home</a></li>
       <li class="menu-item"><a href="../Existing Record/main.html">Records</a></li>
-      <li class="menu-item"><a href="../New Record/main.html">Export</a></li>
+      <li class="menu-item"><a href="#" onclick="exportTableWithTitle(event)">Export</a></li>
+      <li class="menu-item"><a href="/About Us/main.html">About Us</a></li>
+
     </ul>
   </div>
 
@@ -71,7 +73,7 @@
     </div>
   </div>
 
-  <!-- New Record Modal -->
+  <!-- New Record Modal  -->
   <div id="recordModal" class="record-modal d-none">
     <div class="record-content">
       <div class="modal-header">
@@ -120,16 +122,28 @@
               <label for="ocrDescription">Description:</label>
               <input type="text" id="ocrDescription" class="form-control" />
             </div>
-            <div class="mb-2">
-              <label for="ocrAmount">Amount:</label>
+            <fieldset class="mb-2 border-0 p-0">
+              <legend class="form-label mb-1">Amount:</legend>
               <div class="d-flex align-items-center gap-2">
                 <span class="fs-3">₱</span>
                 <!-- Amount in Pesos + Cents -->
-                <input type="number" id="ocrPesos" class="form-control" placeholder="0000" style="max-width: 140px;" />
+                <input 
+                  type="number" 
+                  id="ocrPesos" 
+                  class="form-control" 
+                  placeholder="0000" 
+                  style="max-width: 140px;" 
+                />
                 <span class="fs-5">.</span>
-                <input type="number" id="ocrCents" class="form-control" placeholder="00" style="max-width: 90px;" />
+                <input 
+                  type="number" 
+                  id="ocrCents" 
+                  class="form-control" 
+                  placeholder="00" 
+                  style="max-width: 90px;" 
+                />
               </div>
-            </div>
+            </fieldset>
             <div class="mb-2">
               <label for="ocrInvoice">Invoice Number:</label>
               <input type="text" id="ocrInvoice" class="form-control" />
@@ -138,16 +152,28 @@
               <label for="ocrVatCompany">VAT Company:</label>
               <input type="text" id="ocrVatCompany" class="form-control" />
             </div>
-            <div class="mb-2">
-              <label for="ocrInputTax">Input Tax Amount:</label>
+            <fieldset class="mb-2 border-0 p-0">
+              <legend class="form-label mb-1">Input Tax Amount:</legend>
               <div class="d-flex align-items-center gap-2">
                 <span class="fs-3">₱</span>
                 <!-- Amount in Pesos + Cents -->
-                <input type="number" id="ocrTaxPesos" class="form-control" placeholder="0000" style="max-width: 140px;" />
+                <input 
+                  type="number" 
+                  id="ocrTaxPesos" 
+                  class="form-control" 
+                  placeholder="0000" 
+                  style="max-width: 140px;" 
+                />
                 <span class="fs-5">.</span>
-                <input type="number" id="ocrCents" class="form-control" placeholder="00" style="max-width: 90px;" />
+                <input 
+                  type="number" 
+                  id="ocrTaxCents" 
+                  class="form-control" 
+                  placeholder="00" 
+                  style="max-width: 90px;" 
+                />
               </div>
-             </div>
+            </fieldset>
             <div class="mb-2">
               <label for="ocrTin">VAT Registration TIN:</label>
               <input type="text" id="ocrTin" class="form-control" />
@@ -192,10 +218,28 @@
           <label for="editDescription">Description:</label>
           <input type="text" id="editDescription" class="form-control" />
         </div>
-        <div class="mb-2">
-          <label for="editAmount">Amount:</label>
-          <input type="number" step="0.01" id="editAmount" class="form-control" />
-        </div>
+        <fieldset class="mb-2 border-0 p-0">
+          <legend class="form-label mb-1">Amount:</legend>
+          <div class="d-flex align-items-center gap-2">
+            <span class="fs-3">₱</span>
+            <!-- Amount in Pesos + Cents -->
+            <input 
+              type="number" 
+              id="editPesos" 
+              class="form-control" 
+              placeholder="0000" 
+              style="max-width: 140px;" 
+            />
+            <span class="fs-5">.</span>
+            <input 
+              type="number" 
+              id="editCents" 
+              class="form-control" 
+              placeholder="00" 
+              style="max-width: 90px;" 
+            />
+          </div>
+        </fieldset>
         <div class="mb-2">
           <label for="editInvoice">Invoice Number:</label>
           <input type="text" id="editInvoice" class="form-control" />
@@ -204,10 +248,28 @@
           <label for="editVatCompany">VAT Company:</label>
           <input type="text" id="editVatCompany" class="form-control" />
         </div>
-        <div class="mb-2">
-          <label for="editInputTax">Input Tax Amount:</label>
-          <input type="number" step="0.01" id="editInputTax" class="form-control" />
-        </div>
+        <fieldset class="mb-2 border-0 p-0">
+          <legend class="form-label mb-1">Input Tax Amount:</legend>
+          <div class="d-flex align-items-center gap-2">
+            <span class="fs-3">₱</span>
+            <!-- Amount in Pesos + Cents -->
+            <input 
+              type="number" 
+              id="editTaxPesos" 
+              class="form-control" 
+              placeholder="0000" 
+              style="max-width: 150px;" 
+            />
+            <span class="fs-5">.</span>
+            <input 
+              type="number" 
+              id="editTaxCents" 
+              class="form-control" 
+              placeholder="00" 
+              style="max-width: 90px;" 
+            />
+          </div>
+        </fieldset>
         <div class="mb-2">
           <label for="editTin">VAT Registration TIN:</label>
           <input type="text" id="editTin" class="form-control" />
@@ -253,3 +315,4 @@
   <script src="main.js"></script>
 </body>
 </html>
+ 

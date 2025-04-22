@@ -109,15 +109,29 @@ function saveOcrData() {
   // Get the input values from the OCR form
   const date = document.getElementById("ocrDate").value;
   const description = document.getElementById("ocrDescription").value;
-  const amount = document.getElementById("ocrPesos").value;
+  const pesos = document.getElementById("ocrPesos").value;
+  const cents = document.getElementById("ocrCents").value;
   const invoice = document.getElementById("ocrInvoice").value;
   const vatCompany = document.getElementById("ocrVatCompany").value;
-  const inputTax = document.getElementById("ocrTaxPesos").value;
+  const taxpesos = document.getElementById("ocrTaxPesos").value;
+  const taxcents = document.getElementById("ocrTaxCents").value;
   const vatTin = document.getElementById("ocrTin").value;
   const category = document.getElementById("ocrCategory").value;
 
+  // amount
+
+  if (!cents) {
+    document.getElementById("ocrCents").value = "00";
+  }
+  if (!taxcents) {
+    document.getElementById("ocrTaxCents").value = "00";
+  }
+  
+  const amount = `${pesos}.${cents}`
+  const inputTax = `${taxpesos}.${taxcents}`
+
   // Check if any field is empty
-  if (!date || !description || !invoice || !amount || !vatCompany || !inputTax || !vatTin || !category) {
+  if (!date || !description || !invoice || !pesos || !taxpesos || !vatCompany || !inputTax || !vatTin || !category) {
     alert("Please fill in all fields before saving.");
     return updateLastModified(); // Prevent saving if any field is empty
   }
@@ -130,7 +144,7 @@ function saveOcrData() {
 
   // Insert new cells with the OCR data
   newRow.innerHTML = `
-      <td><input type="checkbox" class="record-checkbox" /></td>
+      <td><input type="checkbox" id="selectRow1" name="selectRow" class="record-checkbox" /></td>
       <td>${date}</td>
       <td>${description}</td>
       <td>${amount}</td>
@@ -148,10 +162,14 @@ function saveOcrData() {
   // Clear the form fields after saving the data for the next entry
   document.getElementById("ocrDate").value = "";
   document.getElementById("ocrDescription").value = "";
+  // document.getElementById("ocrAmount").value = "";
   document.getElementById("ocrPesos").value = "";
+  document.getElementById("ocrCents").value = "";
   document.getElementById("ocrInvoice").value = "";
   document.getElementById("ocrVatCompany").value = "";
-  document.getElementById("ocrInputTax").value = "";
+  // document.getElementById("ocrInputTax").value = "";
+  document.getElementById("ocrTaxPesos").value = "";
+  document.getElementById("ocrTaxCents").value = "";
   document.getElementById("ocrTin").value = "";
   document.getElementById("ocrCategory").value = "";
 
@@ -167,14 +185,26 @@ function editRow(button) {
   const cells = row.getElementsByTagName("td");
 
   // Fill the modal fields with the current row data
-  document.getElementById("ocrDate").value = cells[0].innerText;
-  document.getElementById("ocrDescription").value = cells[1].innerText;
-  document.getElementById("ocrAmount").value = cells[2].innerText;
-  document.getElementById("ocrInvoice").value = cells[3].innerText;
-  document.getElementById("ocrVatCompany").value = cells[4].innerText;
-  document.getElementById("ocrInputTax").value = cells[5].innerText;
-  document.getElementById("ocrTin").value = cells[6].innerText;
-  document.getElementById("ocrCategory").value = cells[7].innerText;
+  document.getElementById("ocrDate").value = cells[1].innerText;
+  document.getElementById("ocrDescription").value = cells[2].innerText;
+  
+  // split amount 
+  const amount = cells[3].innerText;
+  const [pesos, cents] = amount.split(".")
+  document.getElementById("ocrPesos").value = pesos;
+  document.getElementById("ocrCents").value = cents || "00";
+
+  document.getElementById("ocrInvoice").value = cells[4].innerText;
+  document.getElementById("ocrVatCompany").value = cells[5].innerText;
+
+  // split amount
+  const InputTax = cells[6].innerText.trim();
+  const [taxpesos, taxcents] = InputTax.split(".")
+  document.getElementById("ocrTaxPesos").value = taxpesos;
+  document.getElementById("ocrTaxCents").value = taxcents || "00";
+
+  document.getElementById("ocrTin").value = cells[7].innerText;
+  document.getElementById("ocrCategory").value = cells[8].innerText;
 
   // Remove the row to allow saving updated data
   row.remove();
@@ -201,14 +231,25 @@ function editRow(button) {
   currentEditingRow = row;
 
   // Fill the edit modal with current row values
-  document.getElementById("editDate").value = cells[0].innerText;
-  document.getElementById("editDescription").value = cells[1].innerText;
-  document.getElementById("editAmount").value = cells[2].innerText;
-  document.getElementById("editInvoice").value = cells[3].innerText;
-  document.getElementById("editVatCompany").value = cells[4].innerText;
-  document.getElementById("editInputTax").value = cells[5].innerText;
-  document.getElementById("editTin").value = cells[6].innerText;
-  document.getElementById("editCategory").value = cells[7].innerText;
+  document.getElementById("editDate").value = cells[1].innerText;
+  document.getElementById("editDescription").value = cells[2].innerText;
+
+  // split amount 
+  const amount = cells[3].innerText;
+  const [pesos, cents] = amount.split(".")
+  document.getElementById("editPesos").value = pesos;
+  document.getElementById("editCents").value = cents || "00";
+
+  document.getElementById("editInvoice").value = cells[4].innerText;
+  document.getElementById("editVatCompany").value = cells[5].innerText;
+
+  const InputTax = cells[6].innerText;
+  const [taxpesos, taxcents] = InputTax.split(".")
+  document.getElementById("editTaxPesos").value = taxpesos;
+  document.getElementById("editTaxCents").value = taxcents || "00";
+  
+  document.getElementById("editTin").value = cells[7].innerText;
+  document.getElementById("editCategory").value = cells[8].innerText;
 
   // Show edit modal
   document.getElementById("editRecordModal").classList.remove("d-none");
@@ -222,14 +263,20 @@ function saveEditedRecord(closeAfterSave = false) {
   const cells = currentEditingRow.getElementsByTagName("td");
 
   // Update cell values
-  cells[0].innerText = document.getElementById("editDate").value;
-  cells[1].innerText = document.getElementById("editDescription").value;
-  cells[2].innerText = document.getElementById("editAmount").value;
-  cells[3].innerText = document.getElementById("editInvoice").value;
-  cells[4].innerText = document.getElementById("editVatCompany").value;
-  cells[5].innerText = document.getElementById("editInputTax").value;
-  cells[6].innerText = document.getElementById("editTin").value;
-  cells[7].innerText = document.getElementById("editCategory").value;
+  cells[1].innerText = document.getElementById("editDate").value;
+  cells[2].innerText = document.getElementById("editDescription").value;
+
+  const updatedAmount = `${document.getElementById("editPesos").value}.${document.getElementById("editCents").value.padStart(2, '0')}`;
+  cells[3].innerText = updatedAmount
+
+  cells[4].innerText = document.getElementById("editInvoice").value;
+  cells[5].innerText = document.getElementById("editVatCompany").value;
+
+  const updatedTaxAmount = `${document.getElementById("editTaxPesos").value}.${document.getElementById("editTaxCents").value.padStart(2, '0')}`;
+  cells[6].innerText = updatedTaxAmount
+
+  cells[7].innerText = document.getElementById("editTin").value;
+  cells[8].innerText = document.getElementById("editCategory").value;
 
   if (closeAfterSave) {
     hideEditModal();
@@ -290,4 +337,55 @@ function toggleImagePreviewModal() {
   modal.classList.toggle('d-none');
   
 }
+
+
+
+
+
+// test for export button
+function exportTableWithTitle(event) {
+  if (event) event.preventDefault();
+
+  // Get the editable title text
+  let title = document.querySelector(".title-of-record").innerText.trim() || "Untitled_Record";
+
+  // Sanitize the title to be file-safe
+  title = title.replace(/[^a-z0-9_\-]/gi, "_");
+
+  const table = document.querySelector(".table-layout");
+  if (!table) {
+    alert("No table found to export.");
+    return;
+  }
+
+  let csvContent = "data:text/csv;charset=utf-8,";
+  csvContent += `Title of Record:,"${title}"\r\n\r\n`;
+
+  const rows = table.querySelectorAll("tr");
+  rows.forEach((row, rowIndex) => {
+    const cells = row.querySelectorAll("th, td");
+    const rowData = [];
+
+    // Skip the last column (assumed to be the Action column)
+    const cellCount = cells.length > 1 ? cells.length - 1 : cells.length;
+
+    for (let i = 0; i < cellCount; i++) {
+      rowData.push('"' + cells[i].innerText.replace(/"/g, '""') + '"');
+    }
+
+    csvContent += rowData.join(",") + "\r\n";
+  });
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `${title}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+
+
+
 

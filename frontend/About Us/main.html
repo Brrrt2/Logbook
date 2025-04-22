@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - Digital Logbook</title>
+
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="/About Us/main.css" />
+</head>
+<body>
+
+  <!-- Sidebar overlay -->
+  <div id="overlay" class="overlay d-none" onclick="toggleMenu()"></div>
+
+  <!-- Slide-out drawer -->
+  <div id="menuDrawer" class="menu-drawer">
+    <h4 class="logbook-title">Digital Logbook</h4>
+    <ul class="list-unstyled px-3 pt-3">
+      <li class="menu-item"><a href="/Main/main.html">Home</a></li>
+      <li class="menu-item"><a href="/Existing/main.html">Records</a></li>
+      <li class="menu-item">Export</li>
+      <li class="menu-item"><a href="/About Us/main.html">About Us</a></li>
+    </ul>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="sidebar">
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-container container">
+    <div class="card p-4">
+      <div class="logo-circle mx-auto mb-4">
+        <span>LOGO<br />PLACEHOLDER</span>
+      </div>
+      <h2 class="text-center mb-3 text-dark">About Us</h2>
+      <p>
+        <strong>Welcome to the (App Title)!</strong> 🎉<br>
+        We built this tool to simplify how you manage receipts, invoices, and financial records. No more paper piles or hours of manual entry — our app uses smart OCR technology to extract data from images and organize it for you.
+      </p>
+      
+      <p>
+        <strong>Why we made this:</strong><br>
+        As students and researchers, we noticed how much time gets wasted in managing documents. Whether you're a freelancer, small business owner, or just organizing household expenses — we wanted to create something useful, clean, and stress-free.
+      </p>
+      
+      <p>
+        <strong>Meet the Team:</strong><br>
+        
+        We’re a small group of passionate developers who enjoy solving everyday problems through technology. We believe that tools should work for you, not the other way around.
+      </p>
+      <div class="text-center mt-4 text-muted" style="font-size: 0.9rem;">
+        <!-- Image/Logo from the Internet above Developed By -->
+        <div>
+          <!-- Example image URL from the internet (you can replace this with your own logo/image URL) -->
+          <img src="https://via.placeholder.com/80" alt="Sample Logo" style="border-radius: 50%; margin-bottom: 10px;">
+        </div>
+        
+        <p>Developed by: <strong>Albert Alcance & Stephanie Fermil</strong></p>
+        
+        <!-- Social Media Icons -->
+        <div>
+          <a href="https://www.facebook.com/yourprofile" target="_blank" class="social-icon">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="social-icon">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <!-- Add more icons as needed -->
+        </div>
+        
+       
+        
+        <!-- Built with section with logos -->
+        <div class="mt-3" style="font-size: 0.9rem;">
+          <p><strong>Built with:</strong></p>
+          <div>
+            <!-- HTML Logo -->
+            <a href="https://www.w3.org/html/" target="_blank"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" width="40" height="40" alt="HTML"/></a>
+            
+            <!-- JavaScript Logo -->
+            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="40" height="40" alt="JavaScript"/></a>
+            
+            <!-- Flask Logo -->
+            <a href="https://flask.palletsprojects.com/" target="_blank"><img src="https://www.vectorlogo.zone/logos/pocoo_flask/pocoo_flask-icon.svg" width="40" height="40" alt="Flask"/></a>            
+            <!-- Python Logo -->
+            <a href="https://www.python.org" target="_blank"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" width="40" height="40" alt="Python"/></a>
+          </div>
+        </div>
+        <p><br>© 2025 All rights reserved.</p>
+      </div>
+      
+      
+      
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function toggleMenu() {
+      const drawer = document.getElementById("menuDrawer");
+      const overlay = document.getElementById("overlay");
+      drawer.classList.toggle("open");
+      overlay.classList.toggle("d-none");
+    }
+  </script>
+
+</body>
+</html>

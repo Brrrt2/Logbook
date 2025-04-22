@@ -15,6 +15,7 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../frontend'
 MAIN_DIR = os.path.join(BASE_DIR, 'Main')
 NEW_DIR = os.path.join(BASE_DIR, 'New Record')
 EXISTING_DIR = os.path.join(BASE_DIR, 'Existing Record')
+ABOUTUS_DIR= os.path.join(BASE_DIR, 'About Us')
 
 # Static folder for uploaded files
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static/uploads')
@@ -36,6 +37,10 @@ def new_record():
 def existing_record():
     return send_from_directory(EXISTING_DIR, 'main.html')
 
+@app.route('/About_Us/main.html')
+def aboutus__record():
+    return send_from_directory(ABOUTUS_DIR, 'main.html')
+
 
 # === STATIC ROUTES (CSS/JS) ===
 @app.route('/Main/<path:filename>')
@@ -49,6 +54,10 @@ def new_static(filename):
 @app.route('/Existing/<path:filename>')
 def existing_static(filename):
     return send_from_directory(EXISTING_DIR, filename)
+
+@app.route('/About Us/<path:filename>')
+def aboutus_static(filename):
+    return send_from_directory(ABOUTUS_DIR, filename)
 
 
 # === OCR Function ===
