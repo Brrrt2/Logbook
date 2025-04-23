@@ -70,7 +70,7 @@ body {
   }
 
   .menu-item a:hover {
-    color: #007bff;         /* Optional: Add hover color for interactivity */
+    color: #fff;         /* Optional: Add hover color for interactivity */
   }
   
   /* Hamburger */

@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #BCCBC1;
+    background-color: #3F345B;
   }
 
   .card{
@@ -10,6 +10,8 @@ body {
     border-bottom-right-radius: 20px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+    background-color: #E8EBFE;
+
 
   }
   
@@ -37,8 +39,8 @@ body {
     border-bottom-right-radius: 20px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    background-color: #D06666;
-    border-color: #D06666;
+    background-color: #3F345B;
+    border-color: #3F345B;
   }
   /* Sidebar drawer */
   .menu-drawer {
@@ -48,7 +50,7 @@ body {
     width: 250px;
     height:350px;
     margin-top: 30px;
-    background-color: #304452;
+    background-color: #99B779;
     color: #BCCBC1;
     transition: left 0.3s ease;
     z-index: 1000;
@@ -67,6 +69,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s;
+    color: #3F345B;
   }
   
   .menu-item:hover {
@@ -81,7 +84,7 @@ body {
   }
 
   .menu-item a:hover {
-    color: #007bff;         /* Optional: Add hover color for interactivity */
+    color: #ffff;         /* Optional: Add hover color for interactivity */
   }
   
   /* Hamburger */
@@ -92,7 +95,7 @@ body {
     width: 90px;
     height: 60px;
     margin-top: 30px;
-    background-color: #304452;
+    background-color: #99B779;
     display: flex;
     align-items: flex-start;
     justify-content:center;
@@ -104,7 +107,7 @@ body {
   
   .menu-icon {
     font-size: 28px;
-    color: white;
+    color: #464C6E;
     cursor: pointer;
   }
   
@@ -131,7 +134,7 @@ body {
   }
 
   .logbook-title {
-    color: white;
+    color: #3F345B;
     padding-left: 0.75rem;  /* Tailwind's px-3 = 12px */
     padding-right: 0.75rem;
     padding-top: 1rem;     /* Tailwind's pt-4 = 16px */

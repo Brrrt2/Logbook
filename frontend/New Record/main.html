@@ -18,8 +18,7 @@
     <h4 class="logbook-title">Digital Logbook</h4>
     <ul class="list-unstyled px-3 pt-3">
       <li class="menu-item"><a href="../Main/main.html">Home</a></li>
-      <li class="menu-item"><a href="../Existing Record/main.html">Records</a></li>
-      <li class="menu-item"><a href="#" onclick="exportTableWithTitle(event)">Export</a></li>
+      <li class="menu-item"><a href="/Existing/main.html">Records</a></li>
       <li class="menu-item"><a href="/About Us/main.html">About Us</a></li>
 
     </ul>
@@ -42,6 +41,7 @@
           <span>➕</span> Upload File
         </button>
         <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="previewImage(event)" />
+        <button class="btn btn-primary" onclick="exportTableWithTitle(event)">Export</button>
 
       </div>
       <div class="table-div">
@@ -70,6 +70,10 @@
         <!-- Last updated Status :: CSS later-->
         <p id="lastUpdated" class="text-muted mt-3">Last updated: Not yet available <3</p>
       </div>
+      
+        
+
+      
     </div>
   </div>
 

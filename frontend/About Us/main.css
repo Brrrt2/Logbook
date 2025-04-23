@@ -1,14 +1,14 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #BCCBC1;
+    background-color: #3F345B;
   }
   
   /* Card Styling */
   .card {
     height: auto;
     border-radius: 20px;
-    background-color: #ffffff;
+    background-color: #E8EBFE;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   }
   
@@ -39,7 +39,7 @@ body {
     width: 250px;
     height: 350px;
     margin-top: 30px;
-    background-color: #304452;
+    background-color: #99B779;
     color: #BCCBC1;
     transition: left 0.3s ease;
     z-index: 1000;
@@ -58,6 +58,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s;
+    color:#3F345B;
   }
   
   .menu-item:hover {
@@ -71,7 +72,7 @@ body {
   }
   
   .menu-item a:hover {
-    color: #007bff;
+    color: #ffff;
   }
   
   /* Hamburger */
@@ -82,7 +83,7 @@ body {
     width: 90px;
     height: 60px;
     margin-top: 30px;
-    background-color: #304452;
+    background-color: #99B779;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -94,7 +95,7 @@ body {
   
   .menu-icon {
     font-size: 28px;
-    color: white;
+    color: #464C6E;
     cursor: pointer;
   }
   
@@ -121,7 +122,7 @@ body {
   }
   
   .logbook-title {
-    color: white;
+    color:#3F345B;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
     padding-top: 1rem;

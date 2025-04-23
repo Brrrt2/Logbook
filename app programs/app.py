@@ -1,28 +1,29 @@
 import os
+import base64
+import io
+import uuid
 from flask import Flask, send_from_directory, request, jsonify
 from werkzeug.utils import secure_filename
 from PIL import Image
-import pytesseract
+from ocr_scanner import perform_ocr  # Uses image path input
 from entity_extraction import extract_entities
-import base64
-import io
+import pillow_heif
+pillow_heif.register_heif_opener()
 
 # Initialize Flask app
 app = Flask(__name__)
 
-# Base directory
+# Base directory setup
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../frontend'))
 MAIN_DIR = os.path.join(BASE_DIR, 'Main')
 NEW_DIR = os.path.join(BASE_DIR, 'New Record')
 EXISTING_DIR = os.path.join(BASE_DIR, 'Existing Record')
-ABOUTUS_DIR= os.path.join(BASE_DIR, 'About Us')
+ABOUTUS_DIR = os.path.join(BASE_DIR, 'About Us')
 
-# Static folder for uploaded files
+# Upload folder
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static/uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# Set up the Tesseract OCR path
-pytesseract.pytesseract.tesseract_cmd = r"C:\Users\Bert\Documents\Tesseract\tesseract.exe"
 
 # === HTML ROUTES ===
 @app.route('/')
@@ -38,11 +39,10 @@ def existing_record():
     return send_from_directory(EXISTING_DIR, 'main.html')
 
 @app.route('/About_Us/main.html')
-def aboutus__record():
+def aboutus_record():
     return send_from_directory(ABOUTUS_DIR, 'main.html')
 
-
-# === STATIC ROUTES (CSS/JS) ===
+# === STATIC FILES ===
 @app.route('/Main/<path:filename>')
 def main_static(filename):
     return send_from_directory(MAIN_DIR, filename)
@@ -59,35 +59,8 @@ def existing_static(filename):
 def aboutus_static(filename):
     return send_from_directory(ABOUTUS_DIR, filename)
 
-
-# === OCR Function ===
-def perform_ocr(image_path):
-    try:
-        image = Image.open(image_path)
-        # Preprocess the image: Convert to grayscale
-        image = image.convert('L')
-
-        # Optional: Apply other preprocessing steps like resizing or thresholding
-        # image = image.resize((800, 600))  # Example: resize image to standard dimension
-        # image = image.point(lambda p: p > 128 and 255)  # Apply thresholding
-
-        config = '--oem 3 --psm 6'  # Assuming printed for now
-        text = pytesseract.image_to_string(image, config=config)
-
-        print("\nExtracted Text:")
-        print("=" * 50)
-        print(text)
-        print("=" * 50)
-
-        return text.strip().split("\n")
-    except Exception as e:
-        print(f"Error performing OCR: {e}")
-        return []
-
-
-# === OCR and Entity Extraction Routes ===
-
-# OCR with base64 image for live capture
+# === OCR + ENTITY EXTRACTION ===
+# === OCR + ENTITY EXTRACTION ===
 @app.route('/process_receipt', methods=['POST'])
 def process_receipt():
     data = request.get_json()
@@ -97,22 +70,31 @@ def process_receipt():
         return jsonify({'error': 'No image provided'}), 400
 
     try:
-        # Decode the base64 image data
+        # Decode base64 image
         header, encoded = image_data.split(",", 1)
         decoded_bytes = base64.b64decode(encoded)
+
+        # Read image and detect format
         image = Image.open(io.BytesIO(decoded_bytes))
+        image_format = image.format.lower()
 
-        # Perform OCR on the image
-        ocr_result = pytesseract.image_to_string(image, config='--oem 3 --psm 6')
-        ocr_result_lines = ocr_result.strip().split("\n")
+        # Convert HEIC to JPG if necessary
+        if image_format == 'heic' or image.mode in ("RGBA", "P"):
+            image = image.convert("RGB") # Convert to RGB for JPEG
 
-        print("\nExtracted Text from Base64 Image:")
-        print("=" * 50)
-        print(ocr_result)
-        print("=" * 50)
+        # Save as .jpg regardless of input format for compatibility
+        filename = f"{uuid.uuid4().hex}.jpg"
+        temp_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        image.save(temp_path, "JPEG")
 
-        # Extract entities from OCR result
+        # Run OCR
+        ocr_result_lines = perform_ocr(temp_path)
+
+        # Extract entities
         entities = extract_entities(ocr_result_lines)
+
+        # Optional: Delete temp image
+        #os.remove(temp_path)
 
         return jsonify({
             'ocr_result': ocr_result_lines,
@@ -124,6 +106,6 @@ def process_receipt():
         return jsonify({'error': str(e)}), 500
 
 
-# === Run the app ===
+# === RUN APP ===
 if __name__ == '__main__':
     app.run(debug=True)

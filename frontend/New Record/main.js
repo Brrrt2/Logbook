@@ -63,17 +63,40 @@ function captureImage() {
   canvas.width = camera.videoWidth;
   canvas.height = camera.videoHeight;
 
-  // Get the 2d context and draw the image from the camera onto the canvas
+  // Draw the image from the camera onto the canvas
   const ctx = canvas.getContext("2d");
   ctx.drawImage(camera, 0, 0, canvas.width, canvas.height);
 
-  // Convert canvas to data URL and set it as the source of the preview image
+  // Convert canvas to base64 string and preview it
   const imageUrl = canvas.toDataURL("image/png");
   previewImage.src = imageUrl;
 
-  // Toggle the image preview modal to show it above the camera modal
+  // Show the preview modal
   toggleImagePreviewModal();
+
+  // 🔁 Send the base64 image to the Flask backend for OCR
+  fetch('/process_receipt', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ image: imageUrl })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("OCR Result:", data.ocr_result);
+    console.log("Extracted Entities:", data.extracted_entities);
+
+    // 🔧 Optional: Auto-fill form fields with extracted data
+    // Example:
+    // document.getElementById('dateField').value = data.extracted_entities.date || '';
+    // document.getElementById('amountField').value = data.extracted_entities.amount || '';
+  })
+  .catch(error => {
+    console.error("Error sending image to server:", error);
+  });
 }
+
 
 // Toggle Image Preview Modal (Show/Hide it)
 function toggleImagePreviewModal() {
@@ -320,16 +343,41 @@ function previewImage(event) {
 
   reader.onload = function(e) {
     const previewImage = document.getElementById('previewImage');
-    previewImage.src = e.target.result;
+    const imageUrl = e.target.result; // base64 string
 
-    // Show the modal once the image is selected
+    // Set image preview
+    previewImage.src = imageUrl;
+
+    // Show the modal
     toggleImagePreviewModal();
+
+    // Send image to Flask backend for OCR
+    fetch('/process_receipt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ image: imageUrl })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("OCR Result:", data.ocr_result);
+      console.log("Extracted Entities:", data.extracted_entities);
+
+      // Optional: Fill form fields with extracted data
+      // document.getElementById('dateField').value = data.extracted_entities.date || '';
+      // document.getElementById('amountField').value = data.extracted_entities.amount || '';
+    })
+    .catch(error => {
+      console.error("Error sending image to server:", error);
+    });
   };
 
   if (file) {
     reader.readAsDataURL(file);
   }
 }
+
 
 // Function to toggle the modal visibility
 function toggleImagePreviewModal() {

@@ -21,12 +21,13 @@ def extract_entities(ocr_text):
     }
 
     # Regex patterns
-    date_pattern = r"\b\d{1,2}[-/]\d{1,2}[-/]\d{2,4}\b"  # e.g., 3/14/25, 15/01/2019
+    # Modified Regex patterns based on your initial request
+    date_pattern = r"\b\d{1,2}[-/]\d{1,2}[-/]\d{2,4}\b"
     amount_pattern = r"\b(?:php|₱)?\s?(\d{1,3}(?:[.,]\d{3})*(?:\.\d{2})?)"
-    invoice_pattern = r"\b(invoice\s?(no\.?|number)?[:\-]?\s?\d+)"
-    vat_company_pattern = r"\b(vat\s?company[:\-]?\s?[a-z\s]+)"
-    input_tax_pattern = r"\b(input\s?(tax)?\s?(amount)?[:\-]?\s?(?:php|₱)?\s?\d+(?:[.,]\d{2})?)"
-    vat_tin_pattern = r"\b(vat\s?reg(istration)?\s?tin[:\-]?\s?\d{3}[-\s]?\d{3}[-\s]?\d{3})"
+    invoice_pattern = r"S\.I\. #:\s*(\d+)"
+    vat_company_pattern = r"VAT REG TIN:\s*(\d{3}-\d{3}-\d{3})"
+    input_tax_pattern = r"VAT Amount\s*(Php[\d,]+\.\d{2})" # Assuming "Input Tax" refers to "VAT Amount" in this context
+    vat_tin_pattern = r"VAT REG TIN:\s*(\d{3}-\d{3}-\d{3})"
 
     patterns = {
         "DATE": date_pattern,
@@ -37,13 +38,13 @@ def extract_entities(ocr_text):
         "VAT REGISTRATION TIN": vat_tin_pattern
     }
 
-    # Apply regex search for defined patterns
+    # Apply regex search
     for key, pattern in patterns.items():
         match = re.search(pattern, ocr_text_lower)
         if match:
             extracted_data[key] = match.group(0)
 
-    # Try to extract description (text between known labels as fallback)
+    # Try to extract DESCRIPTION line
     lines = ocr_text_lower.split('\n')
     for line in lines:
         if "description" in line:
@@ -52,10 +53,20 @@ def extract_entities(ocr_text):
                 extracted_data["DESCRIPTION"] = match.group(1).strip()
                 break
 
-    # As fallback, use SpaCy for MONEY if amount wasn't detected
+    # Fallback with SpaCy NER
     for ent in doc.ents:
         if ent.label_ == "MONEY" and not extracted_data["AMOUNT"]:
             extracted_data["AMOUNT"] = ent.text
 
-    # Return as list of dictionaries
-    return [{"Entity": key, "Value": value if value else "N/A"} for key, value in extracted_data.items()]
+    # Prepare results
+    result = [{"Entity": key, "Value": value if value else "N/A"} for key, value in extracted_data.items()]
+
+    # 🔽 Print extracted entities
+    print("\nExtracted Entities:")
+    print("=" * 40)
+    for item in result:
+        print(f"{item['Entity']}: {item['Value']}")
+    print("=" * 40)
+
+    return result
+

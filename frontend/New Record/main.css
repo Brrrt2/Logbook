@@ -2,12 +2,13 @@
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #BCCBC1;
+    background-color: #3F345B;
   }
 
   .card {
     height: 600px;
     border-radius: 20px;
+    background-color: #E8EBFE;
   }
 
   .title-of-record {
@@ -26,8 +27,8 @@
 
   .btn {
     border-radius: 20px;
-    background-color: #D06666;
-    border-color: #D06666;
+    background-color: #3F345B;
+    border-color: #3F345B;
   }
 
   /* Sidebar */
@@ -38,7 +39,7 @@
     width: 90px;
     height: 60px;
     margin-top: 30px;
-    background-color: #304452;
+    background-color: #99B779;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -50,7 +51,7 @@
 
   .menu-icon {
     font-size: 28px;
-    color: white;
+    color: #3F345B;
     cursor: pointer;
   }
 
@@ -62,7 +63,7 @@
     width: 250px;
     height: 350px;
     margin-top: 30px;
-    background-color: #304452;
+    background-color: #99B779;
     color: #BCCBC1;
     transition: left 0.3s ease;
     z-index: 1000;
@@ -80,6 +81,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     font-weight: bold;
     cursor: pointer;
+    color:#3F345B;
   }
 
   .menu-item:hover {
@@ -93,7 +95,7 @@
   }
 
   .menu-item a:hover {
-    color: #007bff;
+    color: #fff;
   }
 
   /* Main Layout */
@@ -104,7 +106,7 @@
   }
 
   .logbook-title {
-    color: white;
+    color:#3F345B;
     padding: 1rem 0.75rem 0 0.75rem;
     margin-top: 55px;
   }
@@ -166,7 +168,7 @@
   }
 
   .record-content {
-    background-color: #fff;
+    background-color: #708A74;
     border-radius: 20px;
     padding: 20px;
     width: 90%;
@@ -274,7 +276,7 @@
     font-size: 1.25rem;
     padding: 12px 24px;
     border-radius: 20px;
-    background-color: #D06666;
+    background-color: #708A74;
     border: none;
     color: white;
   }
@@ -290,7 +292,7 @@
   }
 
   .capture-btn:hover {
-    background-color: #b25555;
+    background-color: #99C1A0;
   }
 
   /* Snapshot Image */
@@ -309,7 +311,7 @@
     transform: translate(-50%, -50%);
     width: 80%;
     max-width: 600px;
-    background-color: white;
+    background-color: none;
     padding: 1rem;
     border-radius: 20px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
