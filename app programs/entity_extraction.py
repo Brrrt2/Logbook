@@ -12,29 +12,31 @@ def extract_entities(ocr_text):
 
     extracted_data = {
         "DATE": None,
-        "DESCRIPTION": None,
-        "AMOUNT": None,
+        "AMOUNT_PESOS": None,
+        "AMOUNT_CENTS": None,
         "INVOICE NUMBER": None,
         "VAT COMPANY": None,
-        "INPUT TAX AMOUNT": None,
-        "VAT REGISTRATION TIN": None
+        "INPUT TAX PESOS": None,
+        "INPUT TAX CENTS": None,
+        "VAT REGISTRATION TIN": None    
     }
 
     # Regex patterns
-    # Modified Regex patterns based on your initial request
     date_pattern = r"\b\d{1,2}[-/]\d{1,2}[-/]\d{2,4}\b"
-    amount_pattern = r"\b(?:php|₱)?\s?(\d{1,3}(?:[.,]\d{3})*(?:\.\d{2})?)"
+    # amount_pattern = r"\b(?:php|₱)?\s?(\d{1,3}(?:[.,]\d{3})*(?:\.\d{2})?)"
+    amount_pattern = r"\b(?:php|₱)?\s*(\d{1,3}(?:[.,]\d{3})*|\d+)[.,](\d{2})\b"
     invoice_pattern = r"S\.I\. #:\s*(\d+)"
-    vat_company_pattern = r"VAT REG TIN:\s*(\d{3}-\d{3}-\d{3})"
-    input_tax_pattern = r"VAT Amount\s*(Php[\d,]+\.\d{2})" # Assuming "Input Tax" refers to "VAT Amount" in this context
+    vat_company_pattern = r"\b([A-Z][A-Za-z&.,'-]{2,}(?:\s+[A-Z][A-Za-z&.,'-]{2,}){1,5})\s+(?:Inc\.?|Corp\.?|Corporation|Ltd\.?|Enterprises|Incorporated|Company|VAT|TIN|REG|REG\.?|CO\.)" # 
+    # input_tax_pattern = r"VAT Amount\s*(Php[\d,]+\.\d{2})"
+    input_tax_pattern = r"VAT Amount\s*(?:Php|₱)?\s*(\d{1,3}(?:[.,]\d{3})*|\d+)[.,](\d{2})"
     vat_tin_pattern = r"VAT REG TIN:\s*(\d{3}-\d{3}-\d{3})"
 
     patterns = {
         "DATE": date_pattern,
-        "AMOUNT": amount_pattern,
+        "AMOUNT": amount_pattern, ## remove later
         "INVOICE NUMBER": invoice_pattern,
         "VAT COMPANY": vat_company_pattern,
-        "INPUT TAX AMOUNT": input_tax_pattern,
+        "INPUT TAX AMOUNT": input_tax_pattern, ## remove, separate logic
         "VAT REGISTRATION TIN": vat_tin_pattern
     }
 
@@ -44,14 +46,18 @@ def extract_entities(ocr_text):
         if match:
             extracted_data[key] = match.group(0)
 
-    # Try to extract DESCRIPTION line
-    lines = ocr_text_lower.split('\n')
-    for line in lines:
-        if "description" in line:
-            match = re.search(r"description[:\-]?\s?(.*)", line)
-            if match:
-                extracted_data["DESCRIPTION"] = match.group(1).strip()
-                break
+    ## Amount -- reads pesos/cents separately
+    match = re.search(amount_pattern, ocr_text_lower)
+    if match:
+        extracted_data["AMOUNT_PESOS"] = match.group(1).replace(",", "")
+        extracted_data["AMOUNT_CENTS"] = match.group(2)
+    
+    ## Input Tax -- same thing
+    match = re.search(input_tax_pattern, ocr_text_lower)
+    if match:
+        extracted_data["INPUT_TAX_PESOS"] = match.group(1).replace(",", "")
+        extracted_data["INPUT_TAX_CENTS"] = match.group(2)
+     
 
     # Fallback with SpaCy NER
     for ent in doc.ents:
@@ -69,4 +75,3 @@ def extract_entities(ocr_text):
     print("=" * 40)
 
     return result
-

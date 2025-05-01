@@ -20,7 +20,8 @@ NEW_DIR = os.path.join(BASE_DIR, 'New Record')
 EXISTING_DIR = os.path.join(BASE_DIR, 'Existing Record')
 ABOUTUS_DIR = os.path.join(BASE_DIR, 'About Us')
 
-# Upload folder
+# Upload folder  Saves the uploaded images
+# to a static/uploads directory
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static/uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -59,7 +60,6 @@ def existing_static(filename):
 def aboutus_static(filename):
     return send_from_directory(ABOUTUS_DIR, filename)
 
-# === OCR + ENTITY EXTRACTION ===
 # === OCR + ENTITY EXTRACTION ===
 @app.route('/process_receipt', methods=['POST'])
 def process_receipt():

@@ -30,11 +30,11 @@ function toggleRecordModal() {
 }
 
 // last updated func returning last update system time/date
-// function updateLastModified() {
-//   const now = new Date();
-//   const formatted = now.toLocaleString(); // Adjust for your preferred format
-//   document.getElementById("lastUpdated").textContent = `Last updated: ${formatted}`;
-// }
+function updateLastModified() {
+  const now = new Date();
+  const formatted = now.toLocaleString(); // Adjust for your preferred format
+  document.getElementById("lastUpdated").textContent = `Last updated: ${formatted}`;
+}
 
 // Start the camera when the modal is shown
 function startCamera() {
@@ -105,26 +105,28 @@ function toggleImagePreviewModal() {
   imagePreviewModal.classList.toggle("show"); // Toggles the 'show' class
 }
 
-// Prevent e and other symbols in Amount
+// Prevent letters and other symbols in Amount
 document.addEventListener("DOMContentLoaded", function (){
-  // prevent other keys being pressed for amount
-  const pesosInput = document.getElementById('ocrPesos');
-  const centsInput = document.getElementById('ocrCents');
-  const taxpesosInput = document.getElementById('ocrTaxPesos');
-  // const taxcentsInput = document.getElementById('ocrTaxCents');
-  const keyblock = ['e', 'E', '.', '+', '-'];
+  // prevent other keys being pressed for every type of monetary field
+  const fields = [
+    document.getElementById('ocrPesos'),
+    document.getElementById('ocrCents'),
+    document.getElementById('ocrTaxPesos'),
+    document.getElementById('ocrTaxCents')
+  ];
   
-  function preventKeyPressed(event){
-    if (keyblock.includes(event.key)) {
-  
-        event.preventDefault();
+  function preventKeyPressed(event) {
+    const isNumberKey = event.key >= '0' && event.key <= '9';
+    const isControlKey = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'].includes(event.key);
+    if (!isNumberKey && !isControlKey) {
+      event.preventDefault();
     }
-  
   }
-  
-  pesosInput.addEventListener('keydown', preventKeyPressed);
-  taxpesosInput.addEventListener('keydown', preventKeyPressed);
-  centsInput.addEventListener('keydown', preventKeyPressed);
+
+  fields.forEach(field => {
+    if (!field) return;
+    field.addEventListener("keydown", preventKeyPressed);
+  });
 });
 
 // Function to save OCR data and insert it into the table
@@ -132,6 +134,7 @@ function saveOcrData() {
   // Get the input values from the OCR form
   const date = document.getElementById("ocrDate").value;
   const description = document.getElementById("ocrDescription").value;
+  const paidTo = document.getElementById("ocrPaidTo").value;
   const pesos = document.getElementById("ocrPesos").value;
   const cents = document.getElementById("ocrCents").value;
   const invoice = document.getElementById("ocrInvoice").value;
@@ -149,6 +152,10 @@ function saveOcrData() {
   if (!taxcents) {
     document.getElementById("ocrTaxCents").value = "00";
   }
+
+  if (!paidTo){
+    document.getElementById("ocrPaidTo").value = "N/A";
+  }
   
   const amount = `${pesos}.${cents}`
   const inputTax = `${taxpesos}.${taxcents}`
@@ -165,11 +172,12 @@ function saveOcrData() {
   // Create a new row in the table
   const newRow = tableBody.insertRow();
 
-  // Insert new cells with the OCR data
+  // Insert new cells with the OCR data ++ 'paid_to' field
   newRow.innerHTML = `
       <td><input type="checkbox" id="selectRow1" name="selectRow" class="record-checkbox" /></td>
       <td>${date}</td>
       <td>${description}</td>
+      <td>${paidTo}</td>
       <td>${amount}</td>
       <td>${invoice}</td>
       <td>${vatCompany}</td>
@@ -185,6 +193,7 @@ function saveOcrData() {
   // Clear the form fields after saving the data for the next entry
   document.getElementById("ocrDate").value = "";
   document.getElementById("ocrDescription").value = "";
+  document.getElementById("ocrPaidTo").value = "";
   // document.getElementById("ocrAmount").value = "";
   document.getElementById("ocrPesos").value = "";
   document.getElementById("ocrCents").value = "";
@@ -210,24 +219,25 @@ function editRow(button) {
   // Fill the modal fields with the current row data
   document.getElementById("ocrDate").value = cells[1].innerText;
   document.getElementById("ocrDescription").value = cells[2].innerText;
+  document.getElementById("ocrPaidTo").value = cells[3].innerText;
   
   // split amount 
-  const amount = cells[3].innerText;
+  const amount = cells[4].innerText;
   const [pesos, cents] = amount.split(".")
   document.getElementById("ocrPesos").value = pesos;
   document.getElementById("ocrCents").value = cents || "00";
 
-  document.getElementById("ocrInvoice").value = cells[4].innerText;
-  document.getElementById("ocrVatCompany").value = cells[5].innerText;
+  document.getElementById("ocrInvoice").value = cells[5].innerText;
+  document.getElementById("ocrVatCompany").value = cells[6].innerText;
 
   // split amount
-  const InputTax = cells[6].innerText.trim();
+  const InputTax = cells[7].innerText.trim();
   const [taxpesos, taxcents] = InputTax.split(".")
   document.getElementById("ocrTaxPesos").value = taxpesos;
   document.getElementById("ocrTaxCents").value = taxcents || "00";
 
-  document.getElementById("ocrTin").value = cells[7].innerText;
-  document.getElementById("ocrCategory").value = cells[8].innerText;
+  document.getElementById("ocrTin").value = cells[8].innerText;
+  document.getElementById("ocrCategory").value = cells[9].innerText;
 
   // Remove the row to allow saving updated data
   row.remove();
@@ -256,23 +266,24 @@ function editRow(button) {
   // Fill the edit modal with current row values
   document.getElementById("editDate").value = cells[1].innerText;
   document.getElementById("editDescription").value = cells[2].innerText;
+  document.getElementById("editPaidTo").value = cells[3].innerText;
 
   // split amount 
-  const amount = cells[3].innerText;
+  const amount = cells[4].innerText;
   const [pesos, cents] = amount.split(".")
   document.getElementById("editPesos").value = pesos;
   document.getElementById("editCents").value = cents || "00";
 
-  document.getElementById("editInvoice").value = cells[4].innerText;
-  document.getElementById("editVatCompany").value = cells[5].innerText;
+  document.getElementById("editInvoice").value = cells[5].innerText;
+  document.getElementById("editVatCompany").value = cells[6].innerText;
 
-  const InputTax = cells[6].innerText;
+  const InputTax = cells[7].innerText;
   const [taxpesos, taxcents] = InputTax.split(".")
   document.getElementById("editTaxPesos").value = taxpesos;
   document.getElementById("editTaxCents").value = taxcents || "00";
   
-  document.getElementById("editTin").value = cells[7].innerText;
-  document.getElementById("editCategory").value = cells[8].innerText;
+  document.getElementById("editTin").value = cells[8].innerText;
+  document.getElementById("editCategory").value = cells[9].innerText;
 
   // Show edit modal
   document.getElementById("editRecordModal").classList.remove("d-none");
@@ -288,18 +299,19 @@ function saveEditedRecord(closeAfterSave = false) {
   // Update cell values
   cells[1].innerText = document.getElementById("editDate").value;
   cells[2].innerText = document.getElementById("editDescription").value;
+  cells[3].innerText = document.getElementById("editPaidTo").value;
 
   const updatedAmount = `${document.getElementById("editPesos").value}.${document.getElementById("editCents").value.padStart(2, '0')}`;
-  cells[3].innerText = updatedAmount
+  cells[4].innerText = updatedAmount
 
-  cells[4].innerText = document.getElementById("editInvoice").value;
-  cells[5].innerText = document.getElementById("editVatCompany").value;
+  cells[5].innerText = document.getElementById("editInvoice").value;
+  cells[6].innerText = document.getElementById("editVatCompany").value;
 
   const updatedTaxAmount = `${document.getElementById("editTaxPesos").value}.${document.getElementById("editTaxCents").value.padStart(2, '0')}`;
-  cells[6].innerText = updatedTaxAmount
+  cells[7].innerText = updatedTaxAmount
 
-  cells[7].innerText = document.getElementById("editTin").value;
-  cells[8].innerText = document.getElementById("editCategory").value;
+  cells[8].innerText = document.getElementById("editTin").value;
+  cells[9].innerText = document.getElementById("editCategory").value;
 
   if (closeAfterSave) {
     hideEditModal();
@@ -379,15 +391,12 @@ function previewImage(event) {
 }
 
 
-// Function to toggle the modal visibility
+// Toggle Image Preview Modal (Show/Hide it)
 function toggleImagePreviewModal() {
-  const modal = document.getElementById('imagePreviewModal');
-  modal.classList.toggle('d-none');
-  
+  const imagePreviewModal = document.getElementById("imagePreviewModal");
+  imagePreviewModal.classList.toggle("d-none"); // Toggles visibility
+  imagePreviewModal.classList.toggle("show"); // Toggles the 'show' class
 }
-
-
-
 
 
 // test for export button
@@ -432,8 +441,3 @@ function exportTableWithTitle(event) {
   link.click();
   document.body.removeChild(link);
 }
-
-
-
-
-

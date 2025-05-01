@@ -178,48 +178,52 @@
     flex-direction: column;
     position: relative;
   }
-
-  /* .record-checkbox {
+  .record-checkbox {
     appearance: none;
+    width: 20px; /* Slightly larger */
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
     display: inline-flex;
-    padding: 4px;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+    position: center;
   }
-
+  
+  /* Visible on hover or if already checked */
+  tr:hover .record-checkbox,
+  .record-checkbox:checked {
+    opacity: 1;
+  }
+  
+  /* Checked style */
   .record-checkbox:checked {
     background-color: #B5C54A;
-    border-color: #fff;
+    border-color: #B5C54A;
   }
-
+  
+  /* Checkmark */
   .record-checkbox:checked::after {
     content: '';
     position: absolute;
-    top: 2px;
-    left: 5px;
-    width: 4px;
-    height: 9px;
-    border: #B5C54A;
+    width: 5px;
+    height: 10px;
+    border: solid white;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
   }
   
-  tr:hover .record-checkbox {
-    opacity: 1;
-  }
-
-  .record-checkbox:checked {
-    opacity: 1;
-  }
-
+  /* Table layout tweak */
   .table-layout td:first-child,
   .table-layout th:first-child {
-  text-align: center;
-  width: 40px;
-} */
+    text-align: center;
+    width: 40px;
+  }
+   
 
   .modal-header {
     display: flex;
